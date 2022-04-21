@@ -277,10 +277,10 @@ abstract class AppListFragment : Fragment(R.layout.app_list_layout),
             holder.itemView.setOnClickListener {
                 if (checkedList.contains(item.packageName)) {
                     checkedList.remove(item.packageName)
-                    appSelectListener(item.packageName)
+                    appDeselectListener(item.packageName)
                 } else {
                     checkedList.add(item.packageName)
-                    appDeselectListener(item.packageName)
+                    appSelectListener(item.packageName)
                 }
                 notifyItemChanged(position)
                 listUpdateListener(checkedList.toList())
