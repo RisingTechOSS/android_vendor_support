@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2022 AOSP-Krypton Project
+ * Copyright (C) 2022 FlamingoOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.krypton.settings.fragment
+package com.flamingo.support.fragment
 
 import android.annotation.ColorInt
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -42,7 +42,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.krypton.settings.R
+import com.flamingo.support.R
 
 class ColorPickerFragment(
     defaultColor: String? = "#FFFFFF",

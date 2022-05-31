@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 AICP
- * Copyright (C) 2021-2022 AOSP-Krypton Project
+ * Copyright (C) 2022 FlamingoOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package com.krypton.settings.preference
+package com.flamingo.support.preference
 
 import android.content.Context
 import android.util.AttributeSet
 
 import androidx.preference.ListPreference
 
-class SecureSettingListPreference @JvmOverloads constructor(
+class SystemSettingListPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
 ): ListPreference(context, attrs) {
     init {
-        setPreferenceDataStore(SecureSettingsStore(context.contentResolver))
+        setPreferenceDataStore(SystemSettingsStore(context.contentResolver))
     }
 }

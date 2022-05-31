@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2021 AOSP-Krypton Project
+ * Copyright (C) 2022 FlamingoOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package com.krypton.settings.preference
+package com.flamingo.support.preference
 
 import android.content.Context
-import android.provider.Settings
 import android.util.AttributeSet
 
-class SecureSettingPrimarySwitchPreference @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-): SettingPrimarySwitchPreference(context, attrs) {
-    init {
-        setPreferenceDataStore(SecureSettingsStore(context.contentResolver))
-    }
+import com.android.settingslib.widget.MainSwitchPreference
 
-    override fun getUri() = Settings.Secure.getUriFor(key)
+class GlobalSettingMainSwitchPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+): MainSwitchPreference(context, attrs) {
+    init {
+        setPreferenceDataStore(GlobalSettingsStore(context.contentResolver))
+    }
 }

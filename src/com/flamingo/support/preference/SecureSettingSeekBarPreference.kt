@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 AICP
- *               2021 AOSP-Krypton Project
+ * Copyright (C) 2022 FlamingoOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,16 @@
  * limitations under the License.
  */
 
-package com.krypton.settings.preference
+package com.flamingo.support.preference
 
 import android.content.Context
 import android.util.AttributeSet
 
-import androidx.preference.SwitchPreference
-
-class GlobalSettingSwitchPreference @JvmOverloads constructor(
+class SecureSettingSeekBarPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-): SwitchPreference(context, attrs) {
+): CustomSeekBarPreference(context, attrs) {
     init {
-        setPreferenceDataStore(GlobalSettingsStore(context.contentResolver))
+        setPreferenceDataStore(SecureSettingsStore(context.contentResolver))
     }
 }

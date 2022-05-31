@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2022 AOSP-Krypton Project
+ * Copyright (C) 2022 FlamingoOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.krypton.settings.fragment
+package com.flamingo.support.fragment
 
 import android.annotation.IntDef
 import android.content.pm.PackageInfo
@@ -42,7 +42,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 import com.google.android.material.appbar.AppBarLayout
-import com.krypton.settings.R
+import com.flamingo.support.R
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
