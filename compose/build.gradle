@@ -14,7 +14,7 @@ android {
     compileSdk 32
     namespace 'com.flamingo.support.compose'
     defaultConfig {
-        minSdkVersion 32
+        minSdkVersion 31
         targetSdkVersion 32
     }
     compileOptions {
