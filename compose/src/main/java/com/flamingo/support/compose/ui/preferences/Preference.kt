@@ -58,7 +58,7 @@ fun Preference(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 12.dp, bottom = 12.dp, start = 24.dp, end = 24.dp),
+                .padding(vertical = 8.dp, horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (startWidget != null) {
