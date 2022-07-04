@@ -18,7 +18,6 @@ package com.flamingo.support.compose.ui.layout
 
 import android.content.res.Configuration
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -144,7 +143,11 @@ fun CollapsingToolbarLayout(
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = onBackButtonPressed) {
+                IconButton(
+                    modifier = Modifier
+                        .padding(start = 8.dp),
+                    onClick = onBackButtonPressed
+                ) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.back_button_content_desc)
@@ -213,7 +216,7 @@ fun CollapsingToolbarLayout(
             LazyColumn(
                 modifier = Modifier
                     .nestedScroll(nestedScrollConnection)
-                    .animateContentSize(),
+                    .fillMaxWidth(),
                 contentPadding = PaddingValues(
                     top = BigTitlePadding + 64.dp,
                     bottom = if (isPortrait) navigationBarPadding else 0.dp
