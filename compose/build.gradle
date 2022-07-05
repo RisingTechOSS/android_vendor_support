@@ -7,7 +7,7 @@ buildscript {
 
 plugins {
     id 'com.android.library' version '7.4.0-alpha07'
-    id 'org.jetbrains.kotlin.android' version '1.6.21'
+    id 'org.jetbrains.kotlin.android' version '1.7.0'
 }
 
 android {
@@ -34,7 +34,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion '1.2.0'
     }
     tasks {
         kotlinOptions {
