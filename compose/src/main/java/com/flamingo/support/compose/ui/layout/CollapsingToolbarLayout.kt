@@ -19,6 +19,7 @@ package com.flamingo.support.compose.ui.layout
 import android.content.res.Configuration
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -30,8 +31,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
@@ -43,7 +43,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -86,6 +85,9 @@ fun CollapsingToolbarLayout(
     systemUiController: SystemUiController = rememberSystemUiController(),
     content: LazyListScope.() -> Unit,
 ) {
+    LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(Color.Transparent)
+    }
     val toolbarHeightPx = with(LocalDensity.current) { ToolbarHeight.toPx() }
     val bigTitlePaddingPx = with(LocalDensity.current) { BigTitlePadding.toPx() }
     // offset of big title, updated with scroll position of column
@@ -108,9 +110,6 @@ fun CollapsingToolbarLayout(
             )
         }
     }
-    SideEffect {
-        systemUiController.setStatusBarColor(toolbarColor)
-    }
     val configuration = LocalConfiguration.current
     val isPortrait =
         remember(configuration.orientation) { configuration.orientation == Configuration.ORIENTATION_PORTRAIT }
@@ -124,45 +123,52 @@ fun CollapsingToolbarLayout(
         modifier = modifier
             .then(
                 if (isPortrait) {
-                    Modifier.statusBarsPadding()
+                    Modifier
                 } else {
-                    Modifier.systemBarsPadding()
+                    Modifier.navigationBarsPadding()
                 }
             )
             .fillMaxSize(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
+        val density = LocalDensity.current
+        val statusBarInsets = WindowInsets.statusBars.getTop(density)
+        val statusBarInsetsDp = with(density) { statusBarInsets.toDp() }
         Surface(
             color = toolbarColor,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(ToolbarHeight)
+                .height(ToolbarHeight + statusBarInsetsDp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
+            Box(modifier = Modifier.fillMaxSize()) {
+                Row(
                     modifier = Modifier
-                        .padding(start = 8.dp),
-                    onClick = onBackButtonPressed
+                        .align(Alignment.BottomStart)
+                        .fillMaxWidth()
+                        .height(ToolbarHeight),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = stringResource(id = R.string.back_button_content_desc)
+                    IconButton(
+                        modifier = Modifier.padding(start = 8.dp),
+                        onClick = onBackButtonPressed
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back_button_content_desc)
+                        )
+                    }
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .weight(1f)
+                            .graphicsLayer {
+                                alpha = alphaForOffset
+                            },
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge
                     )
                 }
-                Text(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .weight(1f)
-                        .graphicsLayer {
-                            alpha = alphaForOffset
-                        },
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge
-                )
             }
         }
         Surface(
@@ -210,7 +216,6 @@ fun CollapsingToolbarLayout(
                     }
                 }
             }
-            val density = LocalDensity.current
             val navigationBarPadding =
                 with(density) { WindowInsets.navigationBars.getBottom(this).toDp() }
             LazyColumn(
