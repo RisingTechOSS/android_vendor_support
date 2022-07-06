@@ -80,5 +80,5 @@ jobs:
             echo "Dispatching to $repo"
             curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.API_TOKEN_GITHUB }}" \
               https://api.github.com/repos/Flamingo-OS/packages_apps_$repo/actions/workflows/build_apk.yml/dispatches \
-              -d '{"ref":"A12.1","inputs":{"message":"Updating $repo APK following support library update ${{ env.GIT_LINK }}"}}'
+              -d '{"ref":"A12.1","inputs":{"message":"Updating '"$repo"' APK following support library update ${{ env.GIT_LINK }}"}}'
           done
