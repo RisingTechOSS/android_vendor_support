@@ -25,10 +25,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -44,67 +47,74 @@ fun Preference(
     title: String,
     modifier: Modifier = Modifier,
     summary: String? = null,
-    clickable: Boolean = true,
+    enabled: Boolean = true,
     onClick: () -> Unit = {},
     startWidget: @Composable (BoxScope.() -> Unit)? = null,
     endWidget: @Composable (BoxScope.() -> Unit)? = null,
     bottomWidget: @Composable (BoxScope.() -> Unit)? = null,
 ) {
+    val contentColor = contentColorFor(MaterialTheme.colorScheme.surface).copy(
+        alpha = if (enabled) 1f else 0.75f
+    )
     Surface(
         modifier = modifier.fillMaxWidth(),
-        enabled = clickable,
-        onClick = onClick
+        enabled = enabled,
+        onClick = onClick,
+        color = MaterialTheme.colorScheme.surface,
+        contentColor = contentColor
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 24.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            if (startWidget != null) {
-                Box(
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .size(48.dp),
-                    contentAlignment = Alignment.Center,
-                    content = startWidget
-                )
-            }
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.Start
+        CompositionLocalProvider(LocalContentColor provides contentColor) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp, horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = title,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = TextUnit(19f, TextUnitType.Sp),
-                    fontWeight = FontWeight.Normal,
-                    maxLines = 2,
-                )
-                if (summary != null) {
-                    Text(
-                        text = summary,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Light,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 4,
-                    )
-                }
-                if (bottomWidget != null) {
+                if (startWidget != null) {
                     Box(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .size(48.dp),
                         contentAlignment = Alignment.Center,
-                        content = bottomWidget
+                        content = startWidget
                     )
                 }
-            }
-            if (endWidget != null) {
-                Box(
-                    modifier = Modifier.padding(start = 8.dp),
-                    contentAlignment = Alignment.Center,
-                    content = endWidget
-                )
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = title,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = TextUnit(19f, TextUnitType.Sp),
+                        fontWeight = FontWeight.Normal,
+                        maxLines = 2,
+                    )
+                    if (summary != null) {
+                        Text(
+                            text = summary,
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Light,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                            maxLines = 4,
+                        )
+                    }
+                    if (bottomWidget != null) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            content = bottomWidget
+                        )
+                    }
+                }
+                if (endWidget != null) {
+                    Box(
+                        modifier = Modifier.padding(start = 8.dp),
+                        contentAlignment = Alignment.Center,
+                        content = endWidget
+                    )
+                }
             }
         }
     }

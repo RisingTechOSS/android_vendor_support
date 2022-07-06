@@ -115,7 +115,7 @@ fun <T> MultiSelectListPreference(
         modifier = modifier,
         title = title,
         summary = summary,
-        clickable = clickable,
+        enabled = clickable,
         onClick = {
             if (onClick == null) {
                 showDialog = true

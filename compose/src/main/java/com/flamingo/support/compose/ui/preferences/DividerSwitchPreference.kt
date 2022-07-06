@@ -36,7 +36,7 @@ fun DividerSwitchPreference(
     title: String,
     modifier: Modifier = Modifier,
     summary: String? = null,
-    clickable: Boolean = true,
+    enabled: Boolean = true,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit = {},
     onClick: () -> Unit = {},
@@ -45,7 +45,7 @@ fun DividerSwitchPreference(
         title = title,
         modifier = modifier,
         summary = summary,
-        clickable = clickable,
+        enabled = enabled,
         onClick = onClick,
         endWidget = {
             Row(
@@ -58,6 +58,7 @@ fun DividerSwitchPreference(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Switch(
+                    enabled = enabled,
                     checked = checked,
                     onCheckedChange = onCheckedChange,
                 )

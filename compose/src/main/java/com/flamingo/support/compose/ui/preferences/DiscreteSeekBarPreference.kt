@@ -35,7 +35,7 @@ import kotlin.math.floor
 fun DiscreteSeekBarPreference(
     title: String,
     summary: String? = null,
-    clickable: Boolean = true,
+    enabled: Boolean = true,
     onClick: () -> Unit = {},
     min: Int,
     max: Int,
@@ -47,7 +47,7 @@ fun DiscreteSeekBarPreference(
     Preference(
         title = title,
         summary = summary,
-        clickable = clickable,
+        enabled = enabled,
         onClick = onClick,
         bottomWidget = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -65,6 +65,7 @@ fun DiscreteSeekBarPreference(
                     onValueChangeFinished = onProgressChangeFinished,
                     valueRange = min.toFloat()..max.toFloat(),
                     value = value.toFloat(),
+                    enabled = enabled
                 )
                 if (showProgressText) {
                     Text(

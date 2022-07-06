@@ -94,7 +94,7 @@ fun <T> ListPreference(
         title = title,
         modifier = modifier,
         summary = summary ?: entries.find { it.value == value }?.name,
-        clickable = clickable,
+        enabled = clickable,
         onClick = {
             if (onClick == null) {
                 showDialog = true

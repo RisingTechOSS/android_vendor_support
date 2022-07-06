@@ -27,7 +27,7 @@ fun CheckBoxPreference(
     title: String,
     modifier: Modifier = Modifier,
     summary: String? = null,
-    clickable: Boolean = true,
+    enabled: Boolean = true,
     onClick: (() -> Unit)? = null,
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {},
@@ -36,7 +36,7 @@ fun CheckBoxPreference(
         modifier = modifier,
         title = title,
         summary = summary,
-        clickable = clickable,
+        enabled = enabled,
         onClick = {
             if (onClick != null) {
                 onClick()
@@ -46,6 +46,7 @@ fun CheckBoxPreference(
         },
         endWidget = {
             Checkbox(
+                enabled = enabled,
                 checked = checked,
                 onCheckedChange = onCheckedChange,
             )

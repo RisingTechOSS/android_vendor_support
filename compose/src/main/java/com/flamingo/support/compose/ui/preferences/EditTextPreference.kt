@@ -37,7 +37,7 @@ fun EditTextPreference(
     title: String,
     modifier: Modifier = Modifier,
     summary: String? = null,
-    clickable: Boolean = true,
+    enabled: Boolean = true,
     onClick: (() -> Unit)? = null,
     value: String,
     onValueSelected: (String) -> Unit
@@ -62,6 +62,7 @@ fun EditTextPreference(
             },
             text = {
                 TextField(
+                    enabled = enabled,
                     value = textValue,
                     onValueChange = {
                         textValue = it
@@ -75,7 +76,7 @@ fun EditTextPreference(
         modifier = modifier,
         title = title,
         summary = summary,
-        clickable = clickable,
+        enabled = enabled,
         onClick = {
             if (onClick == null) {
                 showDialog = true

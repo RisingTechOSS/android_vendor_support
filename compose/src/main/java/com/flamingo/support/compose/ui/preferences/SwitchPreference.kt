@@ -25,7 +25,7 @@ fun SwitchPreference(
     title: String,
     modifier: Modifier = Modifier,
     summary: String? = null,
-    clickable: Boolean = true,
+    enabled: Boolean = true,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit = {},
     onClick: () -> Unit = {
@@ -36,10 +36,11 @@ fun SwitchPreference(
         title = title,
         modifier = modifier,
         summary = summary,
-        clickable = clickable,
+        enabled = enabled,
         onClick = onClick,
         endWidget = {
             Switch(
+                enabled = enabled,
                 checked = checked,
                 onCheckedChange = onCheckedChange,
             )

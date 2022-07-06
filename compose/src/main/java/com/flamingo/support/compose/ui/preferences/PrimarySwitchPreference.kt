@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 fun PrimarySwitchPreference(
     title: String,
     modifier: Modifier = Modifier,
-    clickable: Boolean = true,
+    enabled: Boolean = true,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit = {},
     onClick: () -> Unit = {
@@ -58,7 +58,7 @@ fun PrimarySwitchPreference(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(enabled = clickable, onClick = onClick)
+                .clickable(enabled = enabled, onClick = onClick)
                 .padding(vertical = 12.dp, horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -77,6 +77,7 @@ fun PrimarySwitchPreference(
                 )
             }
             Switch(
+                enabled = enabled,
                 checked = checked,
                 onCheckedChange = onCheckedChange,
                 colors = SwitchDefaults.colors(
