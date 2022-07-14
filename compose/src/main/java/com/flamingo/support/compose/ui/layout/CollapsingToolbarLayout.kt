@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
@@ -71,6 +72,7 @@ fun CollapsingToolbarLayout(
             decayAnimationSpec = rememberSplineBasedDecay()
         )
         LargeTopAppBar(
+            modifier = Modifier.statusBarsPadding(),
             title = {
                 Text(text = title, modifier = Modifier.padding(start = 4.dp))
             },
