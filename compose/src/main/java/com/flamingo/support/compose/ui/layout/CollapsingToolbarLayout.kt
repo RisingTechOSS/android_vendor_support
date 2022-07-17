@@ -16,8 +16,6 @@
 
 package com.flamingo.support.compose.ui.layout
 
-import android.content.res.Configuration
-
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +23,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -40,12 +39,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarScrollState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,8 +59,21 @@ fun CollapsingToolbarLayout(
     modifier: Modifier = Modifier,
     content: LazyListScope.() -> Unit,
 ) {
+    val sideNavigationBarPadding =
+        with(LocalDensity.current) {
+            WindowInsets.navigationBars.getLeft(
+                this,
+                LocalLayoutDirection.current
+            ).toDp()
+        }
     Column(
-        modifier = modifier,
+        modifier = modifier.then(
+            if (sideNavigationBarPadding.value != 0f) {
+                Modifier.navigationBarsPadding()
+            } else {
+                Modifier
+            }
+        ),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
@@ -94,16 +105,13 @@ fun CollapsingToolbarLayout(
                 .fillMaxSize()
                 .weight(1f)
         ) {
-            val orientation = LocalConfiguration.current.orientation
-            val isPortrait =
-                remember(orientation) { orientation == Configuration.ORIENTATION_PORTRAIT }
             val navigationBarPadding =
                 with(LocalDensity.current) { WindowInsets.navigationBars.getBottom(this).toDp() }
             LazyColumn(
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
                     .fillMaxSize(),
-                contentPadding = PaddingValues(bottom = if (isPortrait) navigationBarPadding else 0.dp),
+                contentPadding = PaddingValues(bottom = navigationBarPadding),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
                 content = content
