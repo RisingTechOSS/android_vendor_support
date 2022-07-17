@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,7 +65,12 @@ fun <T> ListPreference(
                 Text(text = title, style = MaterialTheme.typography.titleLarge)
             },
             text = {
-                LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                val state = rememberLazyListState()
+                LaunchedEffect(entries) {
+                    state.scrollToItem(entries.indexOfFirst { it.value == value }
+                        .takeIf { it != -1 } ?: 0)
+                }
+                LazyColumn(modifier = Modifier.fillMaxWidth(), state = state) {
                     items(entries) {
                         Row(
                             modifier = Modifier
