@@ -20,6 +20,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -85,6 +86,7 @@ fun <T> MultiSelectListPreference(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .offset(x = (-12).dp)
                                 .clickable(
                                     enabled = true,
                                     onClick = {
@@ -103,7 +105,8 @@ fun <T> MultiSelectListPreference(
                             Text(
                                 modifier = Modifier.weight(1f),
                                 text = entry.name,
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
+                                maxLines = 1
                             )
                         }
                     }
