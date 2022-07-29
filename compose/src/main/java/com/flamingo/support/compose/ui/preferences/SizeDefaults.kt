@@ -18,7 +18,7 @@ package com.flamingo.support.compose.ui.preferences
 
 import androidx.compose.ui.unit.dp
 
-internal val PreferenceMinHeight = 72.dp
+internal val PreferenceMinHeight = 64.dp
 internal val PreferenceContentHorizontalPadding = 24.dp
 internal val PreferenceVerticalPadding = 8.dp
 
