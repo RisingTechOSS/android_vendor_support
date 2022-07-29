@@ -85,7 +85,7 @@ fun CollapsingToolbarLayout(
         LargeTopAppBar(
             modifier = Modifier.statusBarsPadding(),
             title = {
-                Text(text = title, modifier = Modifier.padding(start = 4.dp))
+                Text(text = title, modifier = Modifier.padding(start = 6.dp))
             },
             navigationIcon = {
                 IconButton(
