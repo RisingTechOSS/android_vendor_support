@@ -113,7 +113,6 @@ fun CollapsingToolbarLayout(
                     .fillMaxSize(),
                 contentPadding = PaddingValues(bottom = navigationBarPadding),
                 horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top,
                 content = content
             )
         }

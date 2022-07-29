@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2022 FlamingoOS Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -22,17 +22,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 
 @Composable
-fun PreferenceGroupHeader(title: String, modifier: Modifier = Modifier) {
+fun TopIntroPreference(text: String, modifier: Modifier = Modifier) {
     Text(
-        text = title,
-        color = MaterialTheme.colorScheme.primary,
+        text = text,
+        style = MaterialTheme.typography.titleSmall,
+        fontWeight = FontWeight.Light,
         modifier = modifier.padding(
-            vertical = 12.dp,
-            horizontal = PreferenceContentHorizontalPadding
-        ),
-        fontWeight = FontWeight.SemiBold
+            horizontal = PreferenceContentHorizontalPadding,
+            vertical = PreferenceVerticalPadding
+        )
     )
 }

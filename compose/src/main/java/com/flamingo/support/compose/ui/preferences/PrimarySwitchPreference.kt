@@ -16,13 +16,14 @@
 
 package com.flamingo.support.compose.ui.preferences
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -38,7 +39,9 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalUnitApi::class)
+private val CornerRadius = 28.dp
+
+@OptIn(ExperimentalUnitApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PrimarySwitchPreference(
     title: String,
@@ -52,14 +55,18 @@ fun PrimarySwitchPreference(
 ) {
     Surface(
         color = if (checked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
-        shape = RoundedCornerShape(28.dp),
-        modifier = modifier
+        shape = RoundedCornerShape(CornerRadius),
+        modifier = modifier.padding(
+            horizontal = PreferenceContentHorizontalPadding,
+            vertical = PreferenceVerticalPadding
+        ),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
+                .padding(horizontal = CornerRadius / 2)
                 .fillMaxWidth()
-                .clickable(enabled = enabled, onClick = onClick)
-                .padding(vertical = 12.dp, horizontal = 24.dp),
+                .defaultMinSize(minHeight = PreferenceMinHeight),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -73,7 +80,7 @@ fun PrimarySwitchPreference(
                     style = MaterialTheme.typography.titleMedium,
                     fontSize = TextUnit(20f, TextUnitType.Sp),
                     fontWeight = FontWeight.Normal,
-                    maxLines = 2,
+                    maxLines = 1,
                 )
             }
             Switch(

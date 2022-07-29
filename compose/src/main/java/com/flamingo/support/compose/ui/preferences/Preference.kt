@@ -16,24 +16,28 @@
 
 package com.flamingo.support.compose.ui.preferences
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -53,68 +57,72 @@ fun Preference(
     endWidget: @Composable (BoxScope.() -> Unit)? = null,
     bottomWidget: @Composable (BoxScope.() -> Unit)? = null,
 ) {
-    val contentColor = contentColorFor(MaterialTheme.colorScheme.surface).copy(
-        alpha = if (enabled) 1f else 0.75f
-    )
+    val contentAlpha by animateFloatAsState(targetValue = if (enabled) 1f else 0.5f)
+    val hasSummary = remember(summary) { summary?.isNotBlank() == true }
+    val additionalPadding = remember(hasSummary) {
+        if (hasSummary) PreferenceVerticalPadding else 0.dp
+    }
     Surface(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .alpha(contentAlpha),
         enabled = enabled,
         onClick = onClick,
-        color = MaterialTheme.colorScheme.surface,
-        contentColor = contentColor
+        color = MaterialTheme.colorScheme.surface
     ) {
-        CompositionLocalProvider(LocalContentColor provides contentColor) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 24.dp),
-                verticalAlignment = Alignment.CenterVertically,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = PreferenceContentHorizontalPadding,
+                    vertical = additionalPadding
+                )
+                .defaultMinSize(minHeight = PreferenceMinHeight - additionalPadding),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (startWidget != null) {
+                Box(
+                    modifier = Modifier.size(48.dp),
+                    contentAlignment = Alignment.Center,
+                    content = startWidget
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.Start
             ) {
-                if (startWidget != null) {
-                    Box(
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                            .size(48.dp),
-                        contentAlignment = Alignment.Center,
-                        content = startWidget
-                    )
-                }
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.SpaceEvenly,
-                    horizontalAlignment = Alignment.Start
-                ) {
+                Text(
+                    text = title,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = TextUnit(20f, TextUnitType.Sp),
+                    fontWeight = FontWeight.Normal,
+                    maxLines = 1,
+                )
+                if (hasSummary) {
                     Text(
-                        text = title,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontSize = TextUnit(19f, TextUnitType.Sp),
-                        fontWeight = FontWeight.Normal,
-                        maxLines = 2,
+                        text = summary!!,
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Light,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis
                     )
-                    if (summary != null) {
-                        Text(
-                            text = summary,
-                            style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.Light,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
-                            maxLines = 4,
-                        )
-                    }
-                    if (bottomWidget != null) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            content = bottomWidget
-                        )
-                    }
                 }
-                if (endWidget != null) {
+                if (bottomWidget != null) {
                     Box(
-                        modifier = Modifier.padding(start = 8.dp),
                         contentAlignment = Alignment.Center,
-                        content = endWidget
+                        content = bottomWidget
                     )
                 }
+            }
+            if (endWidget != null) {
+                Spacer(modifier = Modifier.width(8.dp))
+                Box(
+                    contentAlignment = Alignment.Center,
+                    content = endWidget
+                )
             }
         }
     }

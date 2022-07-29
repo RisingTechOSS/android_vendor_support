@@ -68,7 +68,7 @@ fun <T> MultiSelectListPreference(
             },
             confirmButton = {},
             properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true),
-            shape = RoundedCornerShape(32.dp),
+            shape = RoundedCornerShape(DefaultDialogCornerRadius),
             title = {
                 Text(text = title)
             },
