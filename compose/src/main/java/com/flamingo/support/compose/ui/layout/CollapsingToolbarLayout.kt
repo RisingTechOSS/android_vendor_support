@@ -37,7 +37,7 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarScrollState
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,7 +77,7 @@ fun CollapsingToolbarLayout(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
-        val barState = rememberTopAppBarScrollState()
+        val barState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
             state = barState,
             decayAnimationSpec = rememberSplineBasedDecay()
