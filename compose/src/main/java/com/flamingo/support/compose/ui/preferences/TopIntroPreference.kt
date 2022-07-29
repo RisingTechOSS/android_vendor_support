@@ -16,6 +16,7 @@
 
 package com.flamingo.support.compose.ui.preferences
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,9 +30,11 @@ fun TopIntroPreference(text: String, modifier: Modifier = Modifier) {
         text = text,
         style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.Light,
-        modifier = modifier.padding(
-            horizontal = PreferenceContentHorizontalPadding,
-            vertical = PreferenceVerticalPadding
-        )
+        modifier = modifier
+            .padding(
+                horizontal = PreferenceContentHorizontalPadding,
+                vertical = PreferenceVerticalPadding
+            )
+            .fillMaxWidth()
     )
 }
