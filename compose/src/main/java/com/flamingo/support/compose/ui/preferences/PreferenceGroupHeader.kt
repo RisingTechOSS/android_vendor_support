@@ -16,6 +16,7 @@
 
 package com.flamingo.support.compose.ui.preferences
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,10 +30,12 @@ fun PreferenceGroupHeader(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(
-            vertical = 12.dp,
-            horizontal = PreferenceContentHorizontalPadding
-        ),
+        modifier = modifier
+            .padding(
+                vertical = 12.dp,
+                horizontal = PreferenceContentHorizontalPadding
+            )
+            .fillMaxWidth(),
         fontWeight = FontWeight.SemiBold
     )
 }
