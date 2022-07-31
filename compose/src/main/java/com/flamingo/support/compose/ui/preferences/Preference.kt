@@ -17,6 +17,10 @@
 package com.flamingo.support.compose.ui.preferences
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -28,7 +32,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -38,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -45,7 +50,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalUnitApi::class)
+@OptIn(ExperimentalUnitApi::class)
 @Composable
 fun Preference(
     title: String,
@@ -53,21 +58,57 @@ fun Preference(
     summary: String? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
     startWidget: @Composable (BoxScope.() -> Unit)? = null,
     endWidget: @Composable (BoxScope.() -> Unit)? = null,
     bottomWidget: @Composable (BoxScope.() -> Unit)? = null,
+    interactionSource: MutableInteractionSource? = null,
 ) {
     val contentAlpha by animateFloatAsState(targetValue = if (enabled) 1f else 0.5f)
     val hasSummary = remember(summary) { summary?.isNotBlank() == true }
     val additionalPadding = remember(hasSummary) {
         if (hasSummary) PreferenceVerticalPadding else 0.dp
     }
+    val pointerInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .alpha(contentAlpha),
-        enabled = enabled,
-        onClick = onClick,
+            .alpha(contentAlpha)
+            .then(
+                if (enabled) {
+                    Modifier
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onPress = { offset ->
+                                    val pressInteraction = PressInteraction.Press(offset)
+                                    pointerInteractionSource.emit(pressInteraction)
+                                    if (tryAwaitRelease()) {
+                                        pointerInteractionSource.emit(
+                                            PressInteraction.Release(
+                                                pressInteraction
+                                            )
+                                        )
+                                    } else {
+                                        pointerInteractionSource.emit(
+                                            PressInteraction.Cancel(
+                                                pressInteraction
+                                            )
+                                        )
+                                    }
+                                },
+                                onTap = {
+                                    onClick()
+                                },
+                                onLongPress = {
+                                    onLongClick()
+                                }
+                            )
+                        }
+                        .indication(pointerInteractionSource, rememberRipple())
+                } else {
+                    Modifier
+                }
+            ),
         color = MaterialTheme.colorScheme.surface
     ) {
         Row(
