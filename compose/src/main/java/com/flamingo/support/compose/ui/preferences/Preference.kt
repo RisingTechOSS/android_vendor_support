@@ -39,9 +39,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -57,8 +59,8 @@ fun Preference(
     modifier: Modifier = Modifier,
     summary: String? = null,
     enabled: Boolean = true,
-    onClick: () -> Unit = {},
-    onLongClick: () -> Unit = {},
+    onClick: (Offset) -> Unit = {},
+    onLongClick: (Offset) -> Unit = {},
     startWidget: @Composable (BoxScope.() -> Unit)? = null,
     endWidget: @Composable (BoxScope.() -> Unit)? = null,
     bottomWidget: @Composable (BoxScope.() -> Unit)? = null,
@@ -70,6 +72,8 @@ fun Preference(
         if (hasSummary) PreferenceVerticalPadding else 0.dp
     }
     val pointerInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val clickCallback by rememberUpdatedState(newValue = { offset: Offset -> onClick(offset) })
+    val longClickCallback by rememberUpdatedState(newValue = { offset: Offset -> onLongClick(offset) })
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -96,12 +100,8 @@ fun Preference(
                                         )
                                     }
                                 },
-                                onTap = {
-                                    onClick()
-                                },
-                                onLongPress = {
-                                    onLongClick()
-                                }
+                                onTap = clickCallback,
+                                onLongPress = longClickCallback
                             )
                         }
                         .indication(pointerInteractionSource, rememberRipple())
