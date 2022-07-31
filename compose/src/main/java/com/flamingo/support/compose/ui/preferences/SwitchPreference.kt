@@ -37,7 +37,9 @@ fun SwitchPreference(
         modifier = modifier,
         summary = summary,
         enabled = enabled,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         endWidget = {
             Switch(
                 enabled = enabled,

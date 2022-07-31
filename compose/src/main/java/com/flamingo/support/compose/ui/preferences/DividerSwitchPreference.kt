@@ -46,14 +46,19 @@ fun DividerSwitchPreference(
         modifier = modifier,
         summary = summary,
         enabled = enabled,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         endWidget = {
             Row(
                 modifier = Modifier.height(IntrinsicSize.Min),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Divider(
-                    modifier = Modifier.width(1.dp).padding(vertical = 8.dp).fillMaxHeight(),
+                    modifier = Modifier
+                        .width(1.dp)
+                        .padding(vertical = 8.dp)
+                        .fillMaxHeight(),
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
                 )
                 Spacer(modifier = Modifier.width(16.dp))

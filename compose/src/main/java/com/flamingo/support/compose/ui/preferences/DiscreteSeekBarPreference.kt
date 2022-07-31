@@ -48,7 +48,9 @@ fun DiscreteSeekBarPreference(
         title = title,
         summary = summary,
         enabled = enabled,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         bottomWidget = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Slider(
