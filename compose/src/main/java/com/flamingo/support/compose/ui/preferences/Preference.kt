@@ -83,10 +83,9 @@ fun Preference(
             if (startWidget != null) {
                 Box(
                     modifier = Modifier.size(48.dp),
-                    contentAlignment = Alignment.Center,
+                    contentAlignment = Alignment.CenterStart,
                     content = startWidget
                 )
-                Spacer(modifier = Modifier.width(16.dp))
             }
             Column(
                 modifier = Modifier.weight(1f),
