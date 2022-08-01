@@ -17,7 +17,6 @@
 package com.flamingo.support.compose.ui.layout
 
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -25,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -39,8 +39,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -66,18 +69,24 @@ fun CollapsingToolbarLayout(
                 LocalLayoutDirection.current
             ).toDp()
         }
+    val barState = rememberTopAppBarState()
+    val topAppBarColors = TopAppBarDefaults.largeTopAppBarColors()
+    val statusBarColor by topAppBarColors.containerColor(colorTransitionFraction = barState.collapsedFraction)
+    val statusBarPadding =
+        with(LocalDensity.current) { WindowInsets.statusBars.getTop(this).toFloat() }
     Column(
-        modifier = modifier.then(
-            if (sideNavigationBarPadding.value != 0f) {
-                Modifier.navigationBarsPadding()
-            } else {
-                Modifier
+        modifier = modifier
+            .then(
+                if (sideNavigationBarPadding.value != 0f) {
+                    Modifier.navigationBarsPadding()
+                } else {
+                    Modifier
+                }
+            )
+            .drawBehind {
+                drawRect(color = statusBarColor, size = Size(size.width, statusBarPadding))
             }
-        ),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Top
     ) {
-        val barState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
             state = barState,
             decayAnimationSpec = rememberSplineBasedDecay()
@@ -98,7 +107,8 @@ fun CollapsingToolbarLayout(
                     )
                 }
             },
-            scrollBehavior = scrollBehavior
+            scrollBehavior = scrollBehavior,
+            colors = topAppBarColors
         )
         Surface(
             modifier = Modifier
@@ -109,10 +119,10 @@ fun CollapsingToolbarLayout(
                 with(LocalDensity.current) { WindowInsets.navigationBars.getBottom(this).toDp() }
             LazyColumn(
                 modifier = Modifier
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .nestedScroll(scrollBehavior.nestedScrollConnection),
                 contentPadding = PaddingValues(bottom = navigationBarPadding),
-                horizontalAlignment = Alignment.Start,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 content = content
             )
         }
