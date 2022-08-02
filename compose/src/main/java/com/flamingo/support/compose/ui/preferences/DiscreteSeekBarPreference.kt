@@ -34,6 +34,7 @@ import kotlin.math.floor
 @Composable
 fun DiscreteSeekBarPreference(
     title: String,
+    modifier: Modifier = Modifier,
     summary: String? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
@@ -45,6 +46,7 @@ fun DiscreteSeekBarPreference(
     onProgressChangeFinished: () -> Unit = {},
 ) {
     Preference(
+        modifier = modifier,
         title = title,
         summary = summary,
         enabled = enabled,
