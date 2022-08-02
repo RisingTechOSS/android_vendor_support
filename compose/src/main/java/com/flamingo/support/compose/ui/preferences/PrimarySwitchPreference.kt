@@ -56,17 +56,18 @@ fun PrimarySwitchPreference(
     Surface(
         color = if (checked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
         shape = RoundedCornerShape(CornerRadius),
-        modifier = modifier.padding(
-            horizontal = PreferenceContentHorizontalPadding,
-            vertical = PreferenceVerticalPadding
-        ),
+        modifier = modifier
+            .padding(
+                horizontal = PreferenceContentHorizontalPadding,
+                vertical = PreferenceContentVerticalPadding
+            )
+            .defaultMinSize(minHeight = PrimarySwitchPreferenceMinHeight),
         onClick = onClick
     ) {
         Row(
             modifier = Modifier
                 .padding(horizontal = CornerRadius / 2)
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = PreferenceMinHeight),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(

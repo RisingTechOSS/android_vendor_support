@@ -33,7 +33,7 @@ fun TopIntroPreference(text: String, modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(
                 horizontal = PreferenceContentHorizontalPadding,
-                vertical = PreferenceVerticalPadding
+                vertical = PreferenceContentVerticalPadding
             )
             .fillMaxWidth()
     )

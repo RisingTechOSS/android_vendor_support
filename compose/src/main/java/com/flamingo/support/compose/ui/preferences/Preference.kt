@@ -68,9 +68,6 @@ fun Preference(
 ) {
     val contentAlpha by animateFloatAsState(targetValue = if (enabled) 1f else 0.5f)
     val hasSummary = remember(summary) { summary?.isNotBlank() == true }
-    val additionalPadding = remember(hasSummary) {
-        if (hasSummary) PreferenceVerticalPadding else 0.dp
-    }
     val pointerInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
     val clickCallback by rememberUpdatedState(newValue = { offset: Offset -> onClick(offset) })
     val longClickCallback by rememberUpdatedState(newValue = { offset: Offset -> onLongClick(offset) })
@@ -108,7 +105,8 @@ fun Preference(
                 } else {
                     Modifier
                 }
-            ),
+            )
+            .defaultMinSize(minHeight = PreferenceMinHeight),
         color = MaterialTheme.colorScheme.surface
     ) {
         Row(
@@ -116,9 +114,8 @@ fun Preference(
                 .fillMaxWidth()
                 .padding(
                     horizontal = PreferenceContentHorizontalPadding,
-                    vertical = additionalPadding
-                )
-                .defaultMinSize(minHeight = PreferenceMinHeight - additionalPadding),
+                    vertical = PreferenceContentVerticalPadding
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (startWidget != null) {

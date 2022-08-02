@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 
 internal val PreferenceMinHeight = 64.dp
 internal val PreferenceContentHorizontalPadding = 24.dp
-internal val PreferenceVerticalPadding = 8.dp
+internal val PreferenceContentVerticalPadding = 6.dp
+internal val PrimarySwitchPreferenceMinHeight = 72.dp
 
 internal val DefaultDialogCornerRadius = 32.dp
