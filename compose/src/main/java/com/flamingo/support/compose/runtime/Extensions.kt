@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.os.UserHandle
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,7 +37,8 @@ fun <T> rememberBoundService(
     context: Context = LocalContext.current,
     intent: Intent,
     obtainService: (IBinder) -> T,
-    flags: Int = Context.BIND_AUTO_CREATE
+    flags: Int = Context.BIND_AUTO_CREATE,
+    userHandle: UserHandle? = null
 ): T? {
     val obtainServiceCallback by rememberUpdatedState(newValue = obtainService)
     var service by remember { mutableStateOf<T?>(null) }
@@ -53,11 +55,20 @@ fun <T> rememberBoundService(
     }
     var bound by remember { mutableStateOf(false) }
     DisposableEffect(context) {
-        bound = context.bindService(
-            intent,
-            serviceConnection,
-            flags
-        )
+        bound = if (userHandle == null) {
+            context.bindService(
+                intent,
+                serviceConnection,
+                flags
+            )
+        } else {
+            context.bindServiceAsUser(
+                intent,
+                serviceConnection,
+                flags,
+                userHandle
+            )
+        }
         onDispose {
             if (bound) {
                 context.unbindService(serviceConnection)
