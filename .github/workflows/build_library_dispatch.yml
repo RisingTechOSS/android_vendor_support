@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     branches:
-      - 'A12.1'
+      - 'A13'
     paths-ignore:
       - 'main'
       - '.**'
@@ -63,14 +63,14 @@ jobs:
       - name: Uploading artifact
         if: ${{ !github.event.pull_request }}
         run: |
-          git clone https://.:${{ secrets.API_TOKEN_GITHUB }}@github.com/Flamingo-OS/vendor_prebuilts
+          git clone https://.:${{ secrets.API_TOKEN_GITHUB }}@github.com/Flamingo-OS/vendor_prebuilts -b A13
           mkdir -p vendor_prebuilts/libs
           cp ${{ env.ARTIFACT_PATH }} vendor_prebuilts/libs/
           cd vendor_prebuilts/
           git pull
           git add .
           git diff-index --quiet HEAD || git commit -m "Update support compose library for ${{ env.GIT_LINK }}"
-          git push origin A12.1
+          git push origin A13
 
       - name: Workflow dispatch
         if: ${{ !github.event.pull_request }}
@@ -80,5 +80,5 @@ jobs:
             echo "Dispatching to $repo"
             curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.API_TOKEN_GITHUB }}" \
               https://api.github.com/repos/Flamingo-OS/packages_apps_$repo/actions/workflows/build_apk.yml/dispatches \
-              -d '{"ref":"A12.1","inputs":{"message":"Updating '"$repo"' APK following support library update ${{ env.GIT_LINK }}"}}'
+              -d '{"ref":"A13","inputs":{"message":"Updating '"$repo"' APK following support library update ${{ env.GIT_LINK }}"}}'
           done
