@@ -16,7 +16,7 @@
 
 package com.flamingo.support.compose.ui.layout
 
-import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -34,16 +34,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -70,8 +73,19 @@ fun CollapsingToolbarLayout(
             ).toDp()
         }
     val barState = rememberTopAppBarState()
-    val topAppBarColors = TopAppBarDefaults.largeTopAppBarColors()
-    val statusBarColor by topAppBarColors.containerColor(colorTransitionFraction = barState.collapsedFraction)
+    val containerColor = MaterialTheme.colorScheme.surface
+    val scrolledContainerColor = MaterialTheme.colorScheme.primary
+    val topAppBarColors = TopAppBarDefaults.largeTopAppBarColors(
+        containerColor = containerColor,
+        scrolledContainerColor = scrolledContainerColor
+    )
+    val statusBarColor by derivedStateOf {
+        lerp(
+            containerColor,
+            scrolledContainerColor,
+            FastOutLinearInEasing.transform(barState.collapsedFraction)
+        )
+    }
     val statusBarPadding =
         with(LocalDensity.current) { WindowInsets.statusBars.getTop(this).toFloat() }
     Column(
@@ -87,10 +101,7 @@ fun CollapsingToolbarLayout(
                 drawRect(color = statusBarColor, size = Size(size.width, statusBarPadding))
             }
     ) {
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-            state = barState,
-            decayAnimationSpec = rememberSplineBasedDecay()
-        )
+        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = barState)
         LargeTopAppBar(
             modifier = Modifier.statusBarsPadding(),
             title = {
