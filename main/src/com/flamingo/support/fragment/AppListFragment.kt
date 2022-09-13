@@ -19,6 +19,7 @@ package com.flamingo.support.fragment
 import android.annotation.IntDef
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PackageInfoFlags
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -222,7 +223,9 @@ abstract class AppListFragment : Fragment(R.layout.app_list_layout),
     private suspend fun refreshListInternal() {
         val list = withContext(Dispatchers.Default) {
             val sortedList = mutex.withLock {
-                pm.getInstalledPackages(PackageManager.MATCH_ALL).filter {
+                pm.getInstalledPackages(
+                    PackageInfoFlags.of(PackageManager.MATCH_ALL.toLong())
+                ).filter {
                     val categoryMatches = when (displayCategory) {
                         CATEGORY_SYSTEM_ONLY -> it.applicationInfo.isSystemApp()
                         CATEGORY_USER_ONLY -> !it.applicationInfo.isSystemApp()
