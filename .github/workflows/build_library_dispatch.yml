@@ -63,7 +63,7 @@ jobs:
       - name: Uploading artifact
         if: ${{ !github.event.pull_request }}
         run: |
-          git clone https://.:${{ secrets.API_TOKEN_GITHUB }}@github.com/Flamingo-OS/vendor_prebuilts -b A13
+          git clone https://.:${{ secrets.API_TOKEN_GITHUB }}@gitlab.com/Flamingo-OS/vendor_prebuilts -b A13
           mkdir -p vendor_prebuilts/libs
           cp ${{ env.ARTIFACT_PATH }} vendor_prebuilts/libs/
           cd vendor_prebuilts/
