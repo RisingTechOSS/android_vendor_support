@@ -22,7 +22,4 @@
     <string name="cancel">取消</string>
     <string name="confirm">確認</string>
 
-    <!-- App list -->
-    <string name="search">搜尋</string>
-    <string name="search_apps">搜尋應用</string>
 </resources>

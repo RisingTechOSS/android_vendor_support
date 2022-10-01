@@ -16,7 +16,6 @@
 
 package com.flamingo.support.fragment
 
-import android.annotation.ColorInt
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -37,6 +36,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 
+import androidx.annotation.ColorInt
 import androidx.core.graphics.ColorUtils
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment.STYLE_NORMAL

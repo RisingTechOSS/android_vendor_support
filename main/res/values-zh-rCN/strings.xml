@@ -28,8 +28,4 @@
     <string name="cancel">取消</string>
     <string name="confirm">确认</string>
 
-    <!-- App list -->
-    <string name="search">搜索</string>
-    <string name="search_apps">搜索应用</string>
-
 </resources>

@@ -17,10 +17,9 @@ android_library {
     srcs: [
         "src/com/flamingo/support/**/*.kt",
     ],
-    defaults: [
-        "SettingsLibDefaults",
-    ],
+    sdk_version: "system_current",
     static_libs: [
+        "androidx.annotation_annotation",
         "androidx-constraintlayout_constraintlayout",
         "androidx.core_core-ktx",
         "androidx.fragment_fragment",
@@ -30,5 +29,8 @@ android_library {
         "com.google.android.material_material",
         "kotlinx_coroutines_android",
         "kotlinx_coroutines",
+        "SettingsLibMainSwitchPreference",
+        "SettingsLibSettingsTheme",
+        "SettingsLibTwoTargetPreference",
     ],
 }

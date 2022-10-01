@@ -28,7 +28,4 @@
     <string name="cancel">Отмена</string>
     <string name="confirm">Применить</string>
 
-    <!-- App list -->
-    <string name="search">Поиск</string>
-    <string name="search_apps">Поиск приложений</string>
 </resources>

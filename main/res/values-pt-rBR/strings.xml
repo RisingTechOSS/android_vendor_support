@@ -28,7 +28,4 @@
     <string name="cancel">Cancelar</string>
     <string name="confirm">Confirmar</string>
 
-    <!-- App list -->
-    <string name="search">Pesquisa</string>
-    <string name="search_apps">Pesquisar aplicativos</string>
 </resources>

@@ -29,7 +29,4 @@
     <string name="confirm">Confirm</string>
     <string name="invalid_color">Invalid color!</string>
 
-    <!-- App list -->
-    <string name="search">Search</string>
-    <string name="search_apps">Search apps</string>
 </resources>
