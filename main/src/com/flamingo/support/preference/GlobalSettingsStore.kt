@@ -29,34 +29,34 @@ class GlobalSettingsStore(
         getInt(key, if (defValue) 1 else 0) == 1
 
     override fun getFloat(key: String, defValue: Float) =
-        Settings.System.getFloat(contentResolver, key, defValue)
+        Settings.Global.getFloat(contentResolver, key, defValue)
 
     override fun getInt(key: String, defValue: Int) =
-        Settings.System.getInt(contentResolver, key, defValue)
+        Settings.Global.getInt(contentResolver, key, defValue)
 
     override fun getLong(key: String, defValue: Long) =
-        Settings.System.getLong(contentResolver, key, defValue)
+        Settings.Global.getLong(contentResolver, key, defValue)
 
     override fun getString(key: String, defValue: String?): String? =
-        Settings.System.getString(contentResolver, key) ?: defValue
+        Settings.Global.getString(contentResolver, key) ?: defValue
 
     override fun putBoolean(key: String, value: Boolean) {
         putInt(key, if (value) 1 else 0)
     }
 
     override fun putFloat(key: String, value: Float) {
-        Settings.System.putFloat(contentResolver, key, value)
+        Settings.Global.putFloat(contentResolver, key, value)
     }
 
     override fun putInt(key: String, value: Int) {
-        Settings.System.putInt(contentResolver, key, value)
+        Settings.Global.putInt(contentResolver, key, value)
     }
 
     override fun putLong(key: String, value: Long) {
-        Settings.System.putLong(contentResolver, key, value)
+        Settings.Global.putLong(contentResolver, key, value)
     }
 
     override fun putString(key: String, value: String?) {
-        Settings.System.putString(contentResolver, key, value)
+        Settings.Global.putString(contentResolver, key, value)
     }
 }
